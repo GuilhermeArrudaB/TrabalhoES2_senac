@@ -36,3 +36,9 @@ O padrão **Abstract Factory** é implementado em `core/factory.py` para abstrai
 buscar Pokemons (`get_pokemon` e `get_pokemon_list`), enquanto `PokeAPIFactory` implementa a comunicação com a PokeAPI.
 Isso permite trocar a API por outra (ex.: uma API interna) criando uma nova fábrica, sem alterar o código do serviço ou endpoints, garantindo flexibilidade e manutenção fácil.
 
+## Executando Testes
+Para executar os testes unitários:
+```bash
+pytest tests/test_pokemon_endpoints.py -v
+```
+Os testes verificam cenários de sucesso, erro 404 (Pokémon não encontrado) e erros internos.
