@@ -2,3 +2,4 @@
 db.sqlite
 env/
 __pycache__/
+.idea
