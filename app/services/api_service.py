@@ -1,20 +1,38 @@
-from app.core.factory import PokeAPIFactory, APIServiceFactory
-from app.repository.pokemon_repository import PokemonRepository
+from app.core.factory import APIServiceFactory, PokeAPIFactory, DigimonAPIFactory
+from app.repository.entity_repository import EntityRepository
 from app.models.pokemon_model import Pokemon
-from typing import List, Optional
+from app.models.digimon_model import Digimon
+from typing import List, Optional, Union
 
 
 class APIService:
-    def __init__(self, factory: APIServiceFactory = None):
-        self.factory = factory or PokeAPIFactory()
-        self.repository = PokemonRepository(self.factory)
+    def __init__(self, entity_type: str, factory: APIServiceFactory = None):
+        self.entity_type = entity_type.lower()
+        if factory is None:
+            if self.entity_type == "pokemon":
+                factory = PokeAPIFactory()
+            elif self.entity_type == "digimon":
+                factory = DigimonAPIFactory()
+            else:
+                raise ValueError(f"Unsupported entity type: {entity_type}")
+        self.repository = EntityRepository(factory)
 
-    async def fetch_pokemon(self, pokemon_id: str) -> Optional[Pokemon]:
-        pokemon_data = await self.repository.get_pokemon(pokemon_id)
-        return Pokemon(**pokemon_data) if pokemon_data else None
+    async def fetch_entity(self, entity_id: str) -> Optional[Union[Pokemon, Digimon]]:
+        entity_data = await self.repository.get_entity(entity_id)
+        if entity_data is None:
+            return None
+        if self.entity_type == "pokemon":
+            return Pokemon(**entity_data)
+        elif self.entity_type == "digimon":
+            return Digimon(**entity_data)
+        return None
 
-    async def fetch_pokemon_list(self, limit: int, offset: int) -> List[Pokemon]:
-        pokemon_list = await self.repository.get_pokemon_list(limit, offset)
-        tasks = [self.repository.get_pokemon(pokemon["name"]) for pokemon in pokemon_list]
+    async def fetch_entity_list(self, limit: int, offset: int) -> List[Union[Pokemon, Digimon]]:
+        entity_list = await self.repository.get_entity_list(limit, offset)
+        tasks = [self.repository.get_entity(entity["name"]) for entity in entity_list]
         results = await self.repository.execute_concurrently(tasks)
-        return [Pokemon(**data) for data in results if data]
+        if self.entity_type == "pokemon":
+            return [Pokemon(**data) for data in results if data]
+        elif self.entity_type == "digimon":
+            return [Digimon(**data) for data in results if data]
+        return []
