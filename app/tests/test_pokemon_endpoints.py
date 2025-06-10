@@ -51,7 +51,7 @@ async def test_get_pokemon_not_found(mocker):
     response = client.get("/pokemon/unknown")
 
     assert response.status_code == 404
-    assert response.json() == {"detail": "Pokémon não encontrado"}
+    assert response.json() == {"detail": "Pokemon não encontrado"}
 
 
 @pytest.mark.asyncio
@@ -83,4 +83,4 @@ async def test_get_pokemon_list_internal_error(mocker):
     response = client.get("/pokemon?limit=2&offset=0")
 
     assert response.status_code == 500
-    assert response.json() == {"detail": "Erro ao buscar lista de Pokémon: Erro interno"}
+    assert response.json() == {"detail": "Erro ao buscar lista de Pokemon: Erro interno"}

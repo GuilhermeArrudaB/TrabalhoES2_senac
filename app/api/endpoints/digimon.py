@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.services.api_service import APIService
+from app.core.facade import EntityFacade
 from app.models.digimon_model import Digimon
 from typing import List
 
@@ -8,8 +8,8 @@ router = APIRouter()
 @router.get("/{digimon_name}", response_model=Digimon)
 async def get_digimon(digimon_name: str):
     try:
-        api_service = APIService(entity_type="digimon")
-        digimon = await api_service.fetch_entity(digimon_name)
+        facade = EntityFacade(entity_type="digimon")
+        digimon = await facade.get_entity(digimon_name)
         if not digimon:
             raise HTTPException(status_code=404, detail="Digimon não encontrado")
         return digimon
@@ -21,8 +21,8 @@ async def get_digimon(digimon_name: str):
 @router.get("/", response_model=List[Digimon])
 async def get_digimon_list(limit: int = 20, offset: int = 0):
     try:
-        api_service = APIService(entity_type="digimon")
-        return await api_service.fetch_entity_list(limit, offset)
+        facade = EntityFacade(entity_type="digimon")
+        return await facade.get_entity_list(limit, offset)
     except HTTPException as e:
         raise e
     except Exception as e:

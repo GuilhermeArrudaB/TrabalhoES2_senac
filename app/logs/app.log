@@ -1,0 +1,4 @@
+2025-06-09 21:50:00,758 - INFO - method=GET path=/docs status_code=200 process_time=0.0012s
+2025-06-09 21:50:01,061 - INFO - method=GET path=/openapi.json status_code=200 process_time=0.0332s
+2025-06-09 21:50:07,296 - INFO - method=GET path=/docs status_code=200 process_time=0.0000s
+2025-06-09 21:50:07,349 - INFO - method=GET path=/openapi.json status_code=200 process_time=0.0000s
