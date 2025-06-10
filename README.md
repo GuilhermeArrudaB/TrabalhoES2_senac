@@ -38,8 +38,5 @@ Este projeto é um middleware construído com **FastAPI** que consome a [PokéAP
 O padrão **Abstract Factory** é implementado em `core/factory.py` para abstrair o acesso às APIs. A classe abstrata `APIServiceFactory` define métodos genéricos (`get_entity` e `get_entity_list`), enquanto `PokeAPIFactory` e `DigimonAPIFactory` implementam a comunicação com as respectivas APIs. O padrão **Facade** em `core/facade.py` simplifica a interação com o serviço, fornecendo uma interface unificada para os endpoints. Isso permite adicionar novas APIs criando novas fábricas e usar os endpoints de forma mais direta.
 
 ## Executando Testes
-Para executar os testes unitários:
-```bash
-pytest tests/ -v
-```
+Para executar os testes unitários você deve acessar a pasta tests
 Os testes verificam cenários de sucesso, erro 404 (entidade não encontrada) e erros internos para Pokemon e Digimon.
