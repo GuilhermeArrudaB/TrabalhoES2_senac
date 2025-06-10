@@ -21,7 +21,7 @@ mock_digimon_list_data = [
 @pytest.mark.asyncio
 async def test_get_digimon_success(mocker):
     mocker.patch(
-        "app.core.factory.DigimonAPIFactory.get_entity",
+        "app.core.factories.digimon_factory.DigimonAPIFactory.get_entity",
         AsyncMock(return_value=mock_digimon_data)
     )
 
@@ -36,7 +36,7 @@ async def test_get_digimon_success(mocker):
 @pytest.mark.asyncio
 async def test_get_digimon_not_found(mocker):
     mocker.patch(
-        "app.core.factory.DigimonAPIFactory.get_entity",
+        "app.core.factories.digimon_factory.DigimonAPIFactory.get_entity",
         AsyncMock(return_value=None)
     )
 
@@ -49,11 +49,11 @@ async def test_get_digimon_not_found(mocker):
 @pytest.mark.asyncio
 async def test_get_digimon_list_success(mocker):
     mocker.patch(
-        "app.core.factory.DigimonAPIFactory.get_entity_list",
+        "app.core.factories.digimon_factory.DigimonAPIFactory.get_entity_list",
         AsyncMock(return_value=mock_digimon_list_data)
     )
     mocker.patch(
-        "app.core.factory.DigimonAPIFactory.get_entity",
+        "app.core.factories.digimon_factory.DigimonAPIFactory.get_entity",
         AsyncMock(side_effect=[mock_digimon_data, mock_digimon_data])
     )
 
@@ -68,7 +68,7 @@ async def test_get_digimon_list_success(mocker):
 @pytest.mark.asyncio
 async def test_get_digimon_list_internal_error(mocker):
     mocker.patch(
-        "app.core.factory.DigimonAPIFactory.get_entity_list",
+        "app.core.factories.digimon_factory.DigimonAPIFactory.get_entity_list",
         AsyncMock(side_effect=Exception("Erro interno"))
     )
 

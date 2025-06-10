@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.models.pokemon_model import Pokemon
 from typing import List
-from app.core.facade import EntityFacade
+from app.core.facades.entity_facade import EntityFacade
 
 router = APIRouter()
 

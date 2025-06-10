@@ -29,7 +29,7 @@ mock_pokemon_list_data = [
 @pytest.mark.asyncio
 async def test_get_pokemon_success(mocker):
     mocker.patch(
-        "app.core.factory.PokeAPIFactory.get_entity",
+        "app.core.factories.pokemon_factory.PokeAPIFactory.get_entity",
         AsyncMock(return_value=mock_pokemon_data)
     )
 
@@ -44,7 +44,7 @@ async def test_get_pokemon_success(mocker):
 @pytest.mark.asyncio
 async def test_get_pokemon_not_found(mocker):
     mocker.patch(
-        "app.core.factory.PokeAPIFactory.get_entity",
+        "app.core.factories.pokemon_factory.PokeAPIFactory.get_entity",
         AsyncMock(return_value=None)
     )
 
@@ -57,11 +57,11 @@ async def test_get_pokemon_not_found(mocker):
 @pytest.mark.asyncio
 async def test_get_pokemon_list_success(mocker):
     mocker.patch(
-        "app.core.factory.PokeAPIFactory.get_entity_list",
+        "app.core.factories.pokemon_factory.PokeAPIFactory.get_entity_list",
         AsyncMock(return_value=mock_pokemon_list_data)
     )
     mocker.patch(
-        "app.core.factory.PokeAPIFactory.get_entity",
+        "app.core.factories.pokemon_factory.PokeAPIFactory.get_entity",
         AsyncMock(side_effect=[mock_pokemon_data, mock_pokemon_data])
     )
 
@@ -76,7 +76,7 @@ async def test_get_pokemon_list_success(mocker):
 @pytest.mark.asyncio
 async def test_get_pokemon_list_internal_error(mocker):
     mocker.patch(
-        "app.core.factory.PokeAPIFactory.get_entity_list",
+        "app.core.factories.pokemon_factory.PokeAPIFactory.get_entity_list",
         AsyncMock(side_effect=Exception("Erro interno"))
     )
 

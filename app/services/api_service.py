@@ -1,9 +1,10 @@
-from app.core.factory import APIServiceFactory, PokeAPIFactory, DigimonAPIFactory
+from app.core.factories.abc_factory import APIServiceFactory
+from app.core.factories.digimon_factory import DigimonAPIFactory
+from app.core.factories.pokemon_factory import PokeAPIFactory
 from app.repository.entity_repository import EntityRepository
 from app.models.pokemon_model import Pokemon
 from app.models.digimon_model import Digimon
 from typing import List, Optional, Union
-
 
 class APIService:
     def __init__(self, entity_type: str, factory: APIServiceFactory = None):

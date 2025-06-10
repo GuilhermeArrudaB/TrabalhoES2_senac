@@ -26,7 +26,9 @@ Este projeto é um middleware construído com **FastAPI** que consome a [PokéAP
 
 ## Estrutura do Projeto
 - `api/endpoints/`: Endpoints FastAPI para Pokemon e Digimon.
-- `core/`: Configurações, implementação do Abstract Factory, Facade e middleware de logging.
+- `core/factories/`: Implementação do padrão Abstract Factory (classe abstrata e fábricas específicas).
+- `core/adapters/`: Implementação do padrão Adapter com o adaptador do Digimon
+- `core/facades/`: Implementação do padrão Facade com a facade de entidade
 - `models/`: Modelos Pydantic para validação de dados.
 - `services/`: Lógica de negócio.
 - `repository/`: Gerenciamento de acesso a dados.
@@ -34,8 +36,11 @@ Este projeto é um middleware construído com **FastAPI** que consome a [PokéAP
 - `logs/`: Arquivos de log gerados pelo middleware.
 - `main.py`: Inicialização da aplicação.
 
-## Uso do Abstract Factory e Facade
-O padrão **Abstract Factory** é implementado em `core/factory.py` para abstrair o acesso às APIs. A classe abstrata `APIServiceFactory` define métodos genéricos (`get_entity` e `get_entity_list`), enquanto `PokeAPIFactory` e `DigimonAPIFactory` implementam a comunicação com as respectivas APIs. O padrão **Facade** em `core/facade.py` simplifica a interação com o serviço, fornecendo uma interface unificada para os endpoints. Isso permite adicionar novas APIs criando novas fábricas e usar os endpoints de forma mais direta.
+## Uso do Abstract Factory, Facade e Adapter
+O padrão **Abstract Factory** é implementado em `core/factory/` com a classe abstrata `APIServiceFactory` (em `abc_factory.py`) que define métodos genéricos (`get_entity` e `get_entity_list`), enquanto `PokeAPIFactory` (em `pokemon_factory.py`) e `DigimonAPIFactory` (em `digimon_factory.py`) implementam a comunicação com as respectivas APIs. O padrão **Facade** em `core/facade.py` simplifica a interação com o serviço, fornecendo uma interface unificada para os endpoints. O padrão **Adapter** em `core/adapters/digimon_adapter.py` uniformiza os dados da Digimon API para um formato compatível com Pokemon, facilitando a integração. Esses padrões permitem adicionar novas APIs criando novas factories e adapters, usando os endpoints de forma mais direta.
+
+## Uso do Adapter
+O padrão **Adapter** é implementado em `core/adapter.py` com a classe `DigimonAdapter`, que converte os dados da Digimon API (ex.: `name`, `img`, `level`) em um formato compatível com o da PokéAPI (ex.: `name`, `types`, `abilities`). Usado no `DigimonAPIFactory`, o adaptador mapeia o campo `level` para `types` e adiciona campos padrão, garantindo que os dados de Digimon sejam tratados uniformemente no sistema.
 
 ## Executando Testes
 Para executar os testes unitários você deve acessar a pasta tests

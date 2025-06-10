@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.core.facade import EntityFacade
+from app.core.facades.entity_facade import EntityFacade
 from app.models.digimon_model import Digimon
 from typing import List
 

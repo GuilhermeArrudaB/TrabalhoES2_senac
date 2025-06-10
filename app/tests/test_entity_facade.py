@@ -1,9 +1,9 @@
 import pytest
-from unittest.mock import AsyncMock, patch
-from app.core.facade import EntityFacade
-from app.models.pokemon_model import Pokemon, PokemonAbility, Ability, PokemonType, Type
+from unittest.mock import AsyncMock
+from app.core.facades.entity_facade import EntityFacade
+from app.models.pokemon_model import Pokemon
 from app.models.digimon_model import Digimon
-from typing import List, Optional, Union
+from typing import List
 
 mock_pokemon_data = {
     "id": 25,

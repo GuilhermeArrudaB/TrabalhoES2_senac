@@ -1,7 +1,6 @@
-from app.core.factory import APIServiceFactory
+from app.core.factories.abc_factory import APIServiceFactory
 import asyncio
 from typing import List, Dict, Any, Optional
-
 
 class EntityRepository:
     def __init__(self, factory: APIServiceFactory):
