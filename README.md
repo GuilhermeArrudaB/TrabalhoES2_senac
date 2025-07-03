@@ -63,3 +63,49 @@ Para executar os testes unitários você deve acessar a pasta tests:
 pytest tests/ -v
 ```
 Os testes verificam cenários de sucesso, erro 404 (entidade não encontrada) e erros internos para os endpoints de Pokemon e Digimon, além de testar a funcionalidade do `EntityFacade` em `core/facades.py`, do `DigimonAdapter` em `core/adapters/digimon_adapter.py`, dos comandos em `core/command/`, e do iterador em `core/iterator/`.
+
+
+## Estrutura de pastas do projeto
+Abaixo está o diagrama da estrutura de diretórios do projeto, representando a organização das pastas e os principais arquivos relacionados aos padrões **Abstract Factory**, **Facade**, **Adapter**, **Command**, e **Iterator**. A estrutura reflete a estrutura descrita no `README.md`.
+
+```
+app/
+├── api/
+│   └── endpoints/
+│       ├── pokemon.py           # Endpoints para Pokémon (/pokemon/, /pokemon/top/, /pokemon/top-stats/)
+│       └── digimon.py           # Endpoints para Digimon (/digimon/, /digimon/iterated/)
+├── core/
+│   ├── adapters/
+│   │   └── digimon_adapter.py   # Implementa o padrão Adapter (DigimonAdapter)
+│   ├── command/
+│   │   ├── abc_command.py       # Interface abstrata Command
+│   │   └── pokemon 
+│   │       └── pokemon_command.py # Comandos para Pokémon (GetPokemonCommand, GetPokemonListCommand, GetTopPokemonCommand)
+│   │    
+│   ├── factories/
+│   │   ├── abc_factory.py       # Classe abstrata APIServiceFactory
+│   │   ├── pokemon_factory.py   # Implementa PokeAPIFactory para PokéAPI
+│   │   └── digimon_factory.py   # Implementa DigimonAPIFactory para Digimon API
+│   ├── facades/
+│   │   └── entity_facade.py          # Implementa o padrão Facade (EntityFacade)
+│   └── iterator/
+│       └── digimon_iterator.py       # Implementa o padrão Iterator (DigimonIterator)
+├── models/
+│   ├── pokemon.py               # Modelo Pydantic para Pokémon
+│   └── digimon.py               # Modelo Pydantic para Digimon
+├── services/
+│   └── api_service.py           # Lógica de negócio para acesso às APIs
+├── repository/
+│   └── entity_repository.py     # Gerenciamento de acesso aos dados
+├── tests/
+│   ├── test_pokemon_endpoints.py # Testes para endpoints de Pokémon
+│   ├── test_digimon_endpoints.py # Testes para endpoints de Digimon
+│   ├── test_entity_facade.py     # Testes para entity Facade
+│   └── test_digimon_adapter.py   # Testes para adapter de Digimon
+├── logs/
+│   └── app.log                  # Arquivo de log gerado pelo middleware
+├── output/
+│   └── top_pokemon.xlsx         # Arquivo Excel gerado pelo GetTopPokemonCommand
+├── main.py                      # Inicialização da aplicação FastAPI
+└── requirements.txt             # Dependências do projeto
+```
