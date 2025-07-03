@@ -12,6 +12,18 @@ mock_digimon_data = {
     "level": "Rookie"
 }
 
+mock_digimon_data_2 = {
+    "id": None,
+    "name": "Agumon",
+    "types": [{"slot": 1, "type": {"name": "Rookie", "url": ""}}],
+    "abilities": [],
+    "height": None,
+    "weight": None,
+    "img": "url1",
+    "level": "Rookie"
+}
+
+
 mock_digimon_list_data = [
     {"name": "Agumon", "url": "https://digimon-api.vercel.app/api/digimon/name/agumon"},
     {"name": "Gabumon", "url": "https://digimon-api.vercel.app/api/digimon/name/gabumon"}
@@ -76,3 +88,15 @@ async def test_get_digimon_list_internal_error(mocker):
 
     assert response.status_code == 500
     assert response.json() == {"detail": "Erro ao buscar lista de Digimon: Erro interno"}
+
+@pytest.mark.asyncio
+async def test_get_digimon_iterated_success(mocker):
+    mocker.patch(
+        "app.core.facades.entity_facade.EntityFacade.get_entity_list",
+        AsyncMock(return_value=[Digimon(**mock_digimon_data_2), Digimon(**mock_digimon_data_2)])
+    )
+    response = client.get("/digimon/iterated/?limit=2")
+    assert response.status_code == 200
+    assert len(response.json()) == 2
+    assert response.json()[0]["name"] == "Agumon"
+    assert response.json()[0]["level"] == "Rookie"

@@ -1,5 +1,13 @@
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List, Optional
+
+class Type(BaseModel):
+    name: str
+    url: str
+
+class PokemonType(BaseModel):
+    slot: int
+    type: Type
 
 class Ability(BaseModel):
     name: str
@@ -10,18 +18,20 @@ class PokemonAbility(BaseModel):
     is_hidden: bool
     slot: int
 
-class Type(BaseModel):
+class Stat(BaseModel):
     name: str
     url: str
 
-class PokemonType(BaseModel):
-    slot: int
-    type: Type
+class PokemonStat(BaseModel):
+    base_stat: int
+    effort: int
+    stat: Stat
 
 class Pokemon(BaseModel):
-    id: int
+    id: Optional[int]
     name: str
     abilities: List[PokemonAbility]
     types: List[PokemonType]
-    height: int
-    weight: int
+    height: Optional[int]
+    weight: Optional[int]
+    stats: Optional[List[PokemonStat]] = None  # Novo campo para stats

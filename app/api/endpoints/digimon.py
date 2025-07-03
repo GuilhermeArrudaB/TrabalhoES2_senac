@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.core.facades.entity_facade import EntityFacade
+from app.core.iterator.digimon_iterator import DigimonIterator
 from app.models.digimon_model import Digimon
 from typing import List
 
@@ -27,3 +28,17 @@ async def get_digimon_list(limit: int = 20, offset: int = 0):
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao buscar lista de Digimon: {str(e)}")
+
+@router.get("/iterated/", response_model=List[Digimon])
+async def get_digimon_iterated(limit: int = 10):
+    try:
+        facade = EntityFacade(entity_type="digimon")
+        iterator = DigimonIterator(facade, limit=20)
+        result = []
+        async for digimon in iterator:
+            result.append(digimon)
+            if len(result) >= limit:
+                break
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao iterar Digimon: {str(e)}")

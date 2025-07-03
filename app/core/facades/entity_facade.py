@@ -3,7 +3,6 @@ from app.models.pokemon_model import Pokemon
 from app.models.digimon_model import Digimon
 from typing import List, Optional, Union
 
-
 class EntityFacade:
     def __init__(self, entity_type: str):
         self.service = APIService(entity_type=entity_type)

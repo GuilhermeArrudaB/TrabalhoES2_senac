@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from app.core.command.pokemon.pokemon_command import GetTopPokemonCommand
 from app.models.pokemon_model import Pokemon
 from typing import List
 from app.core.facades.entity_facade import EntityFacade
@@ -27,3 +28,23 @@ async def get_pokemon_list(limit: int = 20, offset: int = 0):
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao buscar lista de Pokemon: {str(e)}")
+
+@router.get("/top/", response_model=str)
+async def get_top_pokemon():
+    try:
+        facade = EntityFacade(entity_type="pokemon")
+        command = GetTopPokemonCommand(facade)
+        file_path = await command.execute()
+        return f"Arquivo Excel gerado: {file_path}"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao gerar arquivo Excel: {str(e)}")
+
+@router.get("/top-stats/", response_model=str)
+async def get_top_pokemon_stats():
+    try:
+        facade = EntityFacade(entity_type="pokemon")
+        command = GetTopPokemonCommand(facade, limit=10)
+        file_path = await command.execute()
+        return f"Relatório dos Pokémon mais fortes gerado em: {file_path}"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao gerar relatório de Pokémon: {str(e)}")
